@@ -3,7 +3,8 @@ function log --description 'Log messages (Levels: ERR, INF, WARN, DEBUG, OK, QUE
     set __version '0.1.2'
     set __description 'Print a styled string then reset'
 
-    set opts (fish_opt --short l --long level --required-val)
+    set opts (fish_opt --short h --long help)
+    set opts $opts (fish_opt --short l --long level --required-val)
     set opts $opts (fish_opt --short t --long timestamp)
 
     argparse $opts -- $argv
