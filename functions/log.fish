@@ -1,8 +1,7 @@
 function log --description 'Log messages (Levels: ERR, INF, WARN, DEBUG, OK, QUESTION)'
-    # Nice date format if we want to use it.
-    # printf '[%s]' (date --iso-8601=seconds)
-    # printf '[%s]' (date +'%H:%M:%S.%N')
-    # $argv[2..-1]
+    set __name (string split '.' (basename (status -f)))[1]
+    set __version '0.1.2'
+    set __description 'Print a styled string then reset'
 
     set opts (fish_opt --short l --long level --required-val)
     set opts $opts (fish_opt --short t --long timestamp)
