@@ -1,6 +1,6 @@
 function log --description 'Log messages (Levels: ERR, INF, WARN, DEBUG, OK, QUESTION)'
     set __name (string split '.' (basename (status -f)))[1]
-    set __version '0.1.3'
+    set __version '0.1.4'
     set __description 'Print a styled string then reset'
 
     set opts (fish_opt --short h --long help)
