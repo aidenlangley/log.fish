@@ -8,6 +8,43 @@ function log --description 'Log messages (Levels: ERR, INF, WARN, DEBUG, OK, QUE
 
     argparse $opts -- $argv
 
+    if set --query _flag_h || not argparse --min-args=1 -- $argv &>/dev/null
+        set TAB '  '
+        set FLAG_DELIM ', '
+
+        set name (set_color --bold green)$__name(set_color --reset)
+        set desc (set_color --italic)$__description(set_color --reset)
+        echo (printf '%s %s - %s.' $name $__version $desc)
+
+        function _usage --inherit-variable __name --argument-names args
+            echo (set_color --bold cyan)$__name(set_color --reset) $args
+        end
+
+        function _desc --argument-names desc
+            echo (set_color --dim brwhite)$desc(set_color --reset)
+        end
+
+        function _option --argument-names args
+            echo (set_color --bold cyan)$args(set_color --reset)
+        end
+
+        echo
+        echo (set_color --bold green)'Usage:'(set_color --reset)
+        echo $TAB(_usage '[OPTIONS] ...')
+        echo $TAB(_usage '-l/--level ERR ...') (_desc 'Log an error message.')
+        echo $TAB(_usage '-t/--timestamp ...') (_desc 'Log a message with timestamp.')
+        echo $TAB(_usage '-t/--timestamp -l/--level d ...') (_desc 'Log a debug message with timestamp.')
+
+        echo
+        echo (set_color --bold green)'Options:'(set_color --reset)
+        echo $TAB(_option (string join -- $FLAG_DELIM -l --level) '<LEVEL>')
+        echo $TAB$TAB'Log level: DBG, INF, WARN, ERR, OK, QUESTION.'
+        echo $TAB(_option (string join -- $FLAG_DELIM -t --timestamp) '<COLOR>')
+        echo $TAB$TAB'Include timestamp in log message.'
+
+        return
+    end
+
     set msg
     if set --query _flag_t
         set msg (set_color -d)(printf '[%s]' (date +'%H:%M:%S.%N'))(set_color --reset)
